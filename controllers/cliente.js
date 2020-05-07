@@ -9,7 +9,8 @@ router.get("/clientes", (req, res) => {
     ]}).then(cliente =>{
         res.statusCode = 200;
         res.json(cliente);      
-    }).catch(() => {
+    }).catch(err => {
+        console.log(err);
         res.sendstatus = 400;
     });
 });
@@ -28,10 +29,49 @@ router.post("/cliente", (req, res) =>{
     }).then(() => {
         res.sendStatus(200);
 
-    }).catch(() => {
+    }).catch(err => {
+        console.log(err);
         res.sendStatus(400);
     });
     
+});
+
+router.put("/cliente/:id", (req, res) => {
+
+    var id = req.params.id;
+
+    if(id != undefined){
+        if(!isNaN(id)){
+            Cliente.findAll({where: {id: id}}).then(response => {
+                if(response == ""){
+                    res.sendStatus(404);
+                }
+                var {nome, endereco, telefone} = req.body;
+
+                if(nome != undefined && endereco != undefined && telefone != undefined){
+
+                    Cliente.update({name: nome, slug: slugify(nome), phone: telefone, address: endereco}, 
+                        { where: { 
+                            id: id 
+                        }}).then(() => {
+                            res.sendStatus(200);
+                        }).catch(err => {
+                            console.log(err);
+                            res.sendStatus(404);
+                        });
+                }else{
+                    res.sendStatus(400);
+                }
+            }).catch(err => {
+                console.log(err);
+                res.sendStatus(400);
+            });          
+        }else{
+            res.sendStatus(400);
+        }
+    }else{
+        res.sendStatus(400);
+    }    
 });
 
 router.delete("/cliente/:id", (req, res) => {
@@ -42,7 +82,11 @@ router.delete("/cliente/:id", (req, res) => {
                 where: {
                     clienteId: id
                 }
-            }).then(() => {
+            }).then(response => {
+                if(response == ""){
+                    console.log(response);
+                    res.sendStatus(404);
+                }
                 Produto.destroy({
                     where: {
                         clienteId: id 
@@ -55,13 +99,15 @@ router.delete("/cliente/:id", (req, res) => {
                     }).then(() => {
                         res.sendStatus(200);
                     }).catch(() => {
-                        res.sendstatus(404);
+                        res.sendStatus(400);
                     });
-                }).catch(() => {
-                    res.sendstatus(404);
+                }).catch(err => {
+                    console.log(err);
+                    res.sendStatus(404);
                 });
-            }).catch(() => {
-                res.sendstatus(404);
+            }).catch(err => {
+                console.log(err);
+                res.sendStatus(404);
             });
         }else{
             res.sendStatus(404);
