@@ -36,6 +36,24 @@ router.post("/cliente", (req, res) =>{
     
 });
 
+
+router.get("/cliente/:id", (req, res) => {
+    var id = req.params.id;
+
+    Cliente.findOne({
+        where: {id: id},
+    }).then(cliente =>{
+        if(cliente != undefined){
+            res.sendStatus = 200;
+            res.json(cliente);    
+        }else{
+            res.sendStatus(404);
+        }
+    }).catch(err => {
+        console.log(err);
+    });
+});
+
 router.put("/cliente/:id", (req, res) => {
 
     var id = req.params.id;
