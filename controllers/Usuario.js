@@ -3,6 +3,16 @@ const router = express.Router();
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
 
+router.get("/usuarios", (req, res) => {
+    Usuario.findAll({raw: true, order: [ ["id", "DESC"] ]}).then(response =>{
+        res.sendStatus = 200;
+        res.json(response);
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+    });
+});
+
 router.post("/usuario", (req, res) => {
     var email = req.body.email;
     var senha = req.body.senha;
@@ -22,7 +32,8 @@ router.post("/usuario", (req, res) => {
                 senha: hash
 
             }).then(() => {
-                res.sendStatus(200);
+                res.json(usuario);
+                res.sendStatus = 200;
             }).catch((err) => {
                 console.log(err);
                 res.sendStatus(400);
@@ -67,7 +78,7 @@ router.delete("/usuario/:id", (req, res) => {
     }
 });
 
-router.post("/usuario/authenticate", (req, res) => {
+router.post("/usuario/login", (req, res) => {
     var email = req.body.email;
     var senha = req.body.senha;
 
@@ -82,12 +93,8 @@ router.post("/usuario/authenticate", (req, res) => {
 
 
             if(correta){
-                req.session.usuario = {
-                    id: usuario.id,
-                    email: usuario.email
-                }
                 res.sendStatus(200);
-            
+
             }else{
                 res.sendStatus(404);
             }

@@ -100,11 +100,8 @@ router.delete("/cliente/:id", (req, res) => {
                 where: {
                     clienteId: id
                 }
-            }).then(response => {
-                if(response == ""){
-                    console.log(response);
-                    res.sendStatus(404);
-                }
+            }).then(() => {
+               
                 Produto.destroy({
                     where: {
                         clienteId: id 
