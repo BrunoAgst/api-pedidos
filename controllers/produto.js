@@ -4,7 +4,7 @@ const Cliente = require('../models/Cliente');
 const Produto = require('../models/Produto');
 const slugify = require('slugify');
 
-router.get("/produto/:slug", (req, res) => {
+router.get("/produtos/:slug", (req, res) => {
     var slug = req.params.slug;
     Cliente.findOne({
         where: {slug: slug},
@@ -24,13 +24,29 @@ router.get("/produto/:slug", (req, res) => {
     });
 });
 
+router.get("/produto/:id", (req, res) => {
+    var id = req.params.id;
+    Produto.findOne({where: {id: id}}).then(produto => {
+        if(produto != undefined){
+            res.statusCode = 200;
+            res.json(produto);
+        }else{
+            res.sendStatus(400);
+        }
+    }).catch(err => {
+        console.log(err);
+        res.sendStatus(400);
+    })
+});
+
 router.post("/produto/:id", (req, res) => {
     var id = req.params.id;
 
     if(id != undefined){
             Cliente.findAll({where: {id: id}}).then(response =>  {
-                if(response != ""){ 
+                if(response != " "){ 
                     var {nome, quantidade, kg, preco} = req.body;
+                   2 
                     if(nome != undefined && quantidade != undefined && kg != undefined && preco != undefined){
                         Produto.create({
                             name: nome,
@@ -62,12 +78,13 @@ router.post("/produto/:id", (req, res) => {
 
 router.put("/produto/:id", (req, res) => {
     var id = req.params.id;
-
+    
     if(id != undefined){
         if(!isNaN(id)){
             Produto.findAll({where: {id: id}}).then(response => {
                 if(response == ""){
                     res.sendStatus(404);
+            
                 }
                 var {nome, quantidade, kg, preco} = req.body;
                 if(nome != undefined && quantidade != undefined && kg != undefined && preco != undefined){

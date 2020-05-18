@@ -1,8 +1,6 @@
 const Sequelize = require('sequelize');
+const dbconfig = require('./config/connection');
 
-const connection = new Sequelize('sistema_controle_pedidos', 'root', '15121996br.',{
-    host: 'localhost',
-    dialect: 'mysql',
-});
+const connection = new Sequelize(dbconfig);
 
 module.exports = connection;
