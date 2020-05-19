@@ -3,8 +3,10 @@ const router = express.Router();
 const Cliente = require('../models/Cliente');
 const slugify = require('slugify');
 const Produto = require('../models/Produto');
+const {auth} = require('../middleware/auth');
 
-router.get("/clientes", (req, res) => {
+
+router.get("/clientes", auth, (req, res) => {
     Cliente.findAll({raw: true, order: [ ["id", "DESC"] 
     ]}).then(cliente =>{
         res.statusCode = 200;
@@ -15,7 +17,7 @@ router.get("/clientes", (req, res) => {
     });
 });
 
-router.post("/cliente", (req, res) =>{
+router.post("/cliente", auth, (req, res) =>{
     var nome = req.body.nome;
     var telefone = req.body.telefone;
     var endereco = req.body.endereco;
@@ -37,7 +39,7 @@ router.post("/cliente", (req, res) =>{
 });
 
 
-router.get("/cliente/:id", (req, res) => {
+router.get("/cliente/:id", auth, (req, res) => {
     var id = req.params.id;
 
     Cliente.findOne({
@@ -54,7 +56,7 @@ router.get("/cliente/:id", (req, res) => {
     });
 });
 
-router.put("/cliente/:id", (req, res) => {
+router.put("/cliente/:id", auth, (req, res) => {
 
     var id = req.params.id;
 
@@ -92,7 +94,7 @@ router.put("/cliente/:id", (req, res) => {
     }    
 });
 
-router.delete("/cliente/:id", (req, res) => {
+router.delete("/cliente/:id", auth, (req, res) => {
     var id = req.params.id;
     if(id != undefined){
         if(!isNaN(id)){

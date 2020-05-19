@@ -3,8 +3,10 @@ const router = express.Router();
 const Cliente = require('../models/Cliente');
 const Produto = require('../models/Produto');
 const slugify = require('slugify');
+const {auth} = require('../middleware/auth');
 
-router.get("/produtos/:slug", (req, res) => {
+
+router.get("/produtos/:slug", auth, (req, res) => {
     var slug = req.params.slug;
     Cliente.findOne({
         where: {slug: slug},
@@ -24,7 +26,7 @@ router.get("/produtos/:slug", (req, res) => {
     });
 });
 
-router.get("/produto/:id", (req, res) => {
+router.get("/produto/:id", auth, (req, res) => {
     var id = req.params.id;
     Produto.findOne({where: {id: id}}).then(produto => {
         if(produto != undefined){
@@ -39,7 +41,7 @@ router.get("/produto/:id", (req, res) => {
     })
 });
 
-router.post("/produto/:id", (req, res) => {
+router.post("/produto/:id", auth, (req, res) => {
     var id = req.params.id;
 
     if(id != undefined){
@@ -76,7 +78,7 @@ router.post("/produto/:id", (req, res) => {
         }
 });
 
-router.put("/produto/:id", (req, res) => {
+router.put("/produto/:id", auth, (req, res) => {
     var id = req.params.id;
     
     if(id != undefined){
@@ -115,7 +117,7 @@ router.put("/produto/:id", (req, res) => {
 });
 
 
-router.delete("/produto/:id", (req, res) => {
+router.delete("/produto/:id", auth, (req, res) => {
     var id = req.params.id;
     if(id != undefined){
         if(!isNaN(id)){

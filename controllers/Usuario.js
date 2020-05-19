@@ -2,8 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Usuario = require('../models/Usuario');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const {auth, jwtSecret} = require('../middleware/auth');
 
-router.get("/usuarios", (req, res) => {
+router.get("/usuarios", auth, (req, res) => {
     Usuario.findAll({raw: true, order: [ ["id", "DESC"] ]}).then(response =>{
         res.sendStatus = 200;
         res.json(response);
@@ -13,7 +15,7 @@ router.get("/usuarios", (req, res) => {
     });
 });
 
-router.post("/usuario", (req, res) => {
+router.post("/usuario", auth, (req, res) => {
     var email = req.body.email;
     var senha = req.body.senha;
 
@@ -48,7 +50,7 @@ router.post("/usuario", (req, res) => {
     });
 });
 
-router.delete("/usuario/:id", (req, res) => {
+router.delete("/usuario/:id", auth, (req, res) => {
     var id = req.params.id;
     if(id != undefined){
         if(!isNaN(id)){
@@ -89,11 +91,20 @@ router.post("/usuario/login", (req, res) => {
     }).then(usuario => {
         if(usuario != undefined){
           
-            var correta = bcrypt.compareSync(senha, usuario.senha);
+            var correta = bcrypt.compareSync(senha, usuario.senha); 
 
 
             if(correta){
-                res.sendStatus(200);
+
+                jwt.sign({id: usuario.id, email: usuario.email}, jwtSecret, {expiresIn: '48h'}, (err, token) => {
+                    if(err){
+                        res.sendStatus(400);
+                    }else{    
+                        res.status(200);
+                        res.json({token: token});
+                    }
+                });
+                
 
             }else{
                 res.sendStatus(404);
