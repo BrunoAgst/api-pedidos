@@ -34,8 +34,7 @@ router.post("/usuario", auth, (req, res) => {
                 senha: hash
 
             }).then(() => {
-                res.json(usuario);
-                res.sendStatus = 200;
+                res.sendStatus(200);
             }).catch((err) => {
                 console.log(err);
                 res.sendStatus(400);
@@ -46,7 +45,7 @@ router.post("/usuario", auth, (req, res) => {
         }
     }).catch(err => {
         console.log(err);
-        res.sendStatus(400);
+        res.sendStatus(500);
     });
 });
 
@@ -57,6 +56,7 @@ router.delete("/usuario/:id", auth, (req, res) => {
             Usuario.findOne({where: {
                 id: id
             }}).then(response => {
+                
                 if(response == null || response == undefined){
                     res.sendStatus(404);
                 }
@@ -70,13 +70,14 @@ router.delete("/usuario/:id", auth, (req, res) => {
                     res.sendStatus(400);
                 });
             }).catch(err => {
-                res.sendStatus(400);
+                console.log(err);
+                res.sendStatus(404);
             })
-        } else{
-        res.sendStatus(400);
+        }else{
+            res.sendStatus(401);
         }
     } else{
-        res.sendStatus(400);
+        res.sendStatus(401);
     }
 });
 
@@ -96,7 +97,7 @@ router.post("/usuario/login", (req, res) => {
 
             if(correta){
 
-                jwt.sign({id: usuario.id, email: usuario.email}, jwtSecret, {expiresIn: '48h'}, (err, token) => {
+                jwt.sign({id: usuario.id, email: usuario.email}, jwtSecret, {expiresIn: '2h'}, (err, token) => {
                     if(err){
                         res.sendStatus(400);
                     }else{    
