@@ -1,5 +1,5 @@
 #API de Pedidos
-> Ao criar minha primeira versão do sistema de pedidos, o sistema se comunicava diretamente com o banco de dados.
+> Ao criar minha primeira versão da plataforma de pedidos, o sistema se comunicava diretamente com o banco de dados.
 > Em aplicações web isso não é recomendado, então decide criar uma API Rest que faz a comunicação com banco de dados.
 > Desta forma o frontend faz as requisição via API para conseguir inserir, deletar, alterar e consultar o banco de dados.
 
@@ -20,10 +20,11 @@
 | telefone| Telefone do cliente|
 | endereco | Endereço do cliente|
 
-**Consultar clientes todos os clientes:** 
+**Consultar todos os clientes:** 
 `GET http://localhost:3000/clientes`
 ```
 Resposta:
+
 [
     {
         "id": 7,
@@ -50,6 +51,7 @@ Resposta:
 `GET http://localhost:3000/cliente/id_cliente`
 ```
 Resposta:
+
 {
     "id": 7,
     "name": "Maria Eduarda",
@@ -100,6 +102,7 @@ Resposta:
 `GET http://localhost:3000/produtos/nome_cliente`
 ```
 Resposta:
+
 [
     {
         "id": 3,
@@ -126,10 +129,11 @@ Resposta:
 ]
 ```
 
-**Consultar um pedido:**
+**Consultar um único pedido:**
 `GET http://localhost:3000/produto/id_pedido`
 ```
 Resposta:
+
 {
     "id": 4,
     "name": "Maça",
@@ -147,6 +151,7 @@ Resposta:
 `POST http://localhost:3000/produto/id_pedido`
 ```
 Body:
+
 {
     "nome": "Arroz",
     "quantidade": "1",
@@ -160,6 +165,7 @@ Body:
 
 ```
 Body:
+
 {
     "nome": "Laranja",
     "quantidade": "15",
@@ -181,11 +187,12 @@ Body:
 | email | nome do cliente |
 | senha| senha do cliente|
 
-**Consultar todos usuários cadastros:**
+**Consultar todos usuários cadastrados:**
 
 `GET http://localhost:3000/usuarios`
 ```
 Resposta:
+
 [
     {
         "id": 7,
@@ -208,9 +215,10 @@ Resposta:
 `POST http://localhost:3000/usuario`
 ```
 Body:
+
 {
-	"email": "teste@teste.com",
-	"senha": "12345"
+    "email": "teste@teste.com",
+    "senha": "12345"
 }
 ```
 
@@ -219,9 +227,10 @@ Body:
 
 ```
 Body:
+
 {
-	"email": "teste@teste.com",
-	"senha": "12345"
+    "email": "teste@teste.com",
+    "senha": "12345"
 }
 ```
 
