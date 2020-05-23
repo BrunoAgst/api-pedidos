@@ -148,10 +148,10 @@ Resposta:
 ```
 Body:
 {
-	"nome": "Arroz",
-	"quantidade": "1",
-	"kg": 5,
-	"preco": "10.00" 
+    "nome": "Arroz",
+    "quantidade": "1",
+    "kg": 5,
+    "preco": "10.00" 
 }
 ```
 
