@@ -1,11 +1,12 @@
 #API de Pedidos
+> Procurando aprofundar os meus conhecimentos em sistemas de API e aplicar boas práticas, desenvolvi o projeto dessa api de pedidos, primariamente como um sistema para micro empreendedores conseguirem ter um controle simples e rápido de sua demandas e clientes.
 > Ao criar minha primeira versão da plataforma de pedidos, o sistema se comunicava diretamente com o banco de dados.
-> Em aplicações web isso não é recomendado, então decide criar uma API Rest que faz a comunicação com banco de dados.
+> Em aplicações web isso não é recomendado, então decidi criar uma API Rest que faz a comunicação com banco de dados.
 > Desta forma o frontend faz as requisição via API para conseguir inserir, deletar, alterar e consultar o banco de dados.
 
 
 ##Autenticação da API
-> Usamos o **JWT** para fazer a autenticação da API:
+> Usei o **JWT** para fazer a autenticação da API:
 
 ` Autorization: Beaurer <token> `
 
